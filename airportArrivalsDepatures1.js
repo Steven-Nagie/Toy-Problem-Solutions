@@ -34,39 +34,18 @@ Given the initial display lines and the rotor moves for each line, determine wha
 For your convenience the characters of each rotor are in the pre-loaded constant ALPHABET which is a string.
 */
 
-var flapDisplay = function(lines, rotors) {
-  console.log(ALPHABET);
-  var arr = lines[0].split('');
-  var totalMove = 0;
 
-  function reduceLength(x) {
-    return x % ALPHABET.length;
+// COULD ALSO DO A FOREACH INSTEAD OF A FOR LOOP
+var flapDisplay = function(lines, rotors) {
+
+  for (let i = 0; i < lines.length; i++) {
+    var totalMove = 0;
+    lines[i] = lines[i].split('').map((letter, index) => {
+      totalMove += rotors[i][index];
+      var newLetter = (totalMove + ALPHABET.indexOf(letter)) % ALPHABET.length;
+      return(ALPHABET.charAt(newLetter));
+    }).join('');
   }
 
-  arr = arr.map((letter, i) => {
-    totalMove += rotors[0][i];
-    if (totalMove + ALPHABET.indexOf(letter) > ALPHABET.length) {
-      var newLetter = reduceLength(totalMove + ALPHABET.indexOf(letter));
-      return(ALPHABET.charAt(newLetter));
-    } else {
-      return(ALPHABET.charAt(ALPHABET.indexOf(letter) + totalMove));
-    }
-  });
-  lines[0] = arr.join('');
-  return lines;
-}
-
-//REFACTORED
-var flapDisplay = function(lines, rotors) {
-  console.log(ALPHABET);
-  var arr = lines[0].split('');
-  var totalMove = 0;
-
-  arr = arr.map((letter, i) => {
-    totalMove += rotors[0][i];
-    var newLetter = (totalMove + ALPHABET.indexOf(letter)) % ALPHABET.length;
-    return(ALPHABET.charAt(newLetter));
-  });
-  lines[0] = arr.join('');
   return lines;
 }
