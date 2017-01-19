@@ -28,7 +28,7 @@ Detective, we count on you!
 
 // The function has to return an array of all the different possible pins (in the form of strings).
 
-// The triple for loop is ugly but it's the best solution I currently have to properly push numbers to the variations array.
+// Has to be recursive in order to get through all the possible arrays (up to 8).
 function getPINs(observed) {
   var numArr= [
     ['1', '2', '4'],
