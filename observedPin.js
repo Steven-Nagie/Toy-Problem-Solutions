@@ -29,6 +29,7 @@ Detective, we count on you!
 // The function has to return an array of all the different possible pins (in the form of strings).
 
 // Has to be recursive in order to get through all the possible arrays (up to 8).
+// Try a for loop with a recursive function inside that itself has a for loop.
 function getPINs(observed) {
   var numArr= [
     ['1', '2', '4'],
@@ -43,7 +44,9 @@ function getPINs(observed) {
     ['8', '0']
   ];
 
+  // variations is what I will return
   let variations = [];
+  // variableArr is what contains the different combinations of numbers.
   let variableArr = [];
   let observedArr = observed.split('');
   for (let i in observedArr) {
@@ -56,6 +59,53 @@ function getPINs(observed) {
         variations.push(variableArr[0][i] + variableArr[j][k]);
       }
     }
+  }
+
+  return variations;
+}
+
+
+// Here's the version where we try a bit of recursion.
+function getPINs(observed) {
+  var numArr= [
+    ['1', '2', '4'],
+    ['1', '2', '3', '5'],
+    ['2', '3', '6'],
+    ['1', '4', '5', '7'],
+    ['2', '4', '5', '6', '8'],
+    ['3', '5', '6', '9'],
+    ['4', '7', '8'],
+    ['0', '5', '7', '8', '9'],
+    ['6', '8', '9'],
+    ['8', '0']
+  ];
+
+  let variations = [];
+  let variableArr = [];
+  let observedArr = observed.split('');
+  for (let i in observedArr) {
+    variableArr.push(numArr[parseInt(observedArr[i]) - 1]);
+  }
+  console.log("variables: ", variableArr);
+
+  function recurse(variations, variableArr, observedArr, index) {
+    for (let i = 0; i < variableArr.length; i++) {
+      if (variations[index]) {
+        variations[index] += variableArr[i][index];
+      } else {
+        variations[index] = variableArr[i][index];
+      }
+    }
+
+    if (index < observedArr.length) {
+      recurse(variations, variableArr, observedArr, index + 1);
+    }
+
+    return variations;
+  }
+
+  for (let i in variableArr[0]) {
+    variations = recurse(variations, variableArr, observedArr, i);
   }
 
   return variations;
